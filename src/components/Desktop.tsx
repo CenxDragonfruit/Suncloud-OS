@@ -8,6 +8,13 @@ import { FileExplorer } from "./apps/FileExplorer";
 import { Settings } from "./apps/Settings";
 import { AIChat } from "./apps/AIChat";
 import { Terminal } from "./apps/Terminal";
+import { Gallery } from "./apps/Gallery";
+import { Documents } from "./apps/Documents";
+import { Email } from "./apps/Email";
+import { CalendarApp } from "./apps/CalendarApp";
+import { Music } from "./apps/Music";
+import { Video } from "./apps/Video";
+import { Browser } from "./apps/Browser";
 import { 
   Folder, 
   Settings as SettingsIcon, 
@@ -17,9 +24,10 @@ import {
   Cloud,
   Mail,
   Calendar,
-  Music,
-  Video,
-  Bot
+  Music as MusicIcon,
+  Video as VideoIcon,
+  Bot,
+  Globe
 } from "lucide-react";
 
 export interface App {
@@ -48,6 +56,13 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const apps: App[] = [
+    { 
+      id: "browser", 
+      name: "Navegador", 
+      icon: <Globe className="w-8 h-8" />, 
+      color: "from-blue-500 to-cyan-500",
+      content: <Browser />
+    },
     { 
       id: "files", 
       name: "Arquivos", 
@@ -80,13 +95,15 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
       id: "gallery", 
       name: "Galeria", 
       icon: <Image className="w-8 h-8" />, 
-      color: "from-green-500 to-emerald-500"
+      color: "from-green-500 to-emerald-500",
+      content: <Gallery />
     },
     { 
       id: "docs", 
       name: "Documentos", 
       icon: <FileText className="w-8 h-8" />, 
-      color: "from-orange-500 to-red-500"
+      color: "from-orange-500 to-red-500",
+      content: <Documents />
     },
     { 
       id: "cloud", 
@@ -98,25 +115,29 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
       id: "mail", 
       name: "Email", 
       icon: <Mail className="w-8 h-8" />, 
-      color: "from-blue-500 to-indigo-600"
+      color: "from-blue-500 to-indigo-600",
+      content: <Email />
     },
     { 
       id: "calendar", 
       name: "Calendário", 
       icon: <Calendar className="w-8 h-8" />, 
-      color: "from-rose-500 to-pink-600"
+      color: "from-rose-500 to-pink-600",
+      content: <CalendarApp />
     },
     { 
       id: "music", 
       name: "Música", 
-      icon: <Music className="w-8 h-8" />, 
-      color: "from-violet-500 to-purple-600"
+      icon: <MusicIcon className="w-8 h-8" />, 
+      color: "from-violet-500 to-purple-600",
+      content: <Music />
     },
     { 
       id: "video", 
       name: "Vídeos", 
-      icon: <Video className="w-8 h-8" />, 
-      color: "from-red-500 to-orange-500"
+      icon: <VideoIcon className="w-8 h-8" />, 
+      color: "from-red-500 to-orange-500",
+      content: <Video />
     },
   ];
 

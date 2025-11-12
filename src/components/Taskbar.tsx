@@ -1,6 +1,11 @@
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { Cpu, Search, Bell, Wifi, Battery } from "lucide-react";
 import { OpenWindow } from "./Desktop";
+import { WiFiFlyout } from "./taskbar/WiFiFlyout";
+import { BatteryFlyout } from "./taskbar/BatteryFlyout";
+import { NotificationsFlyout } from "./taskbar/NotificationsFlyout";
+import { DateTimeFlyout } from "./taskbar/DateTimeFlyout";
 
 interface TaskbarProps {
   openWindows: OpenWindow[];
@@ -10,6 +15,8 @@ interface TaskbarProps {
 }
 
 export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTaskbarClick }: TaskbarProps) => {
+  const [activeFlyout, setActiveFlyout] = useState<string | null>(null);
+  
   const currentTime = new Date().toLocaleTimeString('pt-BR', { 
     hour: '2-digit', 
     minute: '2-digit' 
@@ -19,6 +26,10 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
     day: '2-digit', 
     month: 'short' 
   });
+
+  const toggleFlyout = (flyout: string) => {
+    setActiveFlyout(activeFlyout === flyout ? null : flyout);
+  };
 
   return (
     <div className="absolute bottom-0 left-0 right-0 z-50">
@@ -66,23 +77,47 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
           </div>
 
           {/* System Tray */}
-          <div className="flex items-center gap-2 ml-auto">
-            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-lg">
+          <div className="flex items-center gap-2 ml-auto relative">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-10 w-10 rounded-lg"
+              onClick={() => toggleFlyout("wifi")}
+            >
               <Wifi className="h-4 w-4 text-primary" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-lg">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-10 w-10 rounded-lg"
+              onClick={() => toggleFlyout("battery")}
+            >
               <Battery className="h-4 w-4 text-primary" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-lg">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-10 w-10 rounded-lg"
+              onClick={() => toggleFlyout("notifications")}
+            >
               <Bell className="h-4 w-4 text-muted-foreground" />
             </Button>
-            <div className="px-3 py-2 text-right">
+            <button 
+              className="px-3 py-2 text-right rounded-lg hover:bg-secondary/50 transition-colors"
+              onClick={() => toggleFlyout("datetime")}
+            >
               <div className="text-sm font-medium text-foreground">{currentTime}</div>
               <div className="text-xs text-muted-foreground">{currentDate}</div>
-            </div>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Flyouts */}
+      {activeFlyout === "wifi" && <WiFiFlyout onClose={() => setActiveFlyout(null)} />}
+      {activeFlyout === "battery" && <BatteryFlyout onClose={() => setActiveFlyout(null)} />}
+      {activeFlyout === "notifications" && <NotificationsFlyout onClose={() => setActiveFlyout(null)} />}
+      {activeFlyout === "datetime" && <DateTimeFlyout onClose={() => setActiveFlyout(null)} />}
     </div>
   );
 };
