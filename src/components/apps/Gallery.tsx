@@ -3,12 +3,12 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const images = [
-  { id: 1, name: "Paisagem_Montanha.jpg", url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" },
-  { id: 2, name: "Animal_Leao.jpg", url: "https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=400" },
-  { id: 3, name: "Abstrato_Cores.jpg", url: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=400" },
-  { id: 4, name: "Cidade_Noite.jpg", url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=400" },
-  { id: 5, name: "Natureza_Floresta.jpg", url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400" },
-  { id: 6, name: "Praia_Por_do_Sol.jpg", url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400" },
+  { id: 1, name: "tigre.jpg", url: "https://preview.redd.it/valendo-tr%C3%AAs-pratos-de-trigo-para-tr%C3%AAs-tigres-tristes-qual-v0-dgep8grsnilc1.png?width=896&auto=webp&s=d61a295a85d4220701b795508c621092753f7bd8" },
+  { id: 2, name: "amizade.jpg", url: "https://bhaz.com.br/wp-content/uploads/2022/11/lula-e-bolsonaro-1024x576.jpg" },
+  { id: 3, name: "formatura.jpg", url: "https://www.ifro.edu.br/images/formatura-ifro.jpg" },
+  { id: 4, name: "os_simpsons.jpg", url: "https://www.format.com/wp-content/uploads/cursed-images-22.jpg" },
+  { id: 5, name: "shrek.jpg", url: "https://images3.memedroid.com/images/UPLOADED405/5d425bfb1cc2a.jpeg" },
+  { id: 6, name: "naruto.jpg", url: "https://falaanimal.com.br/wp-content/uploads/2024/02/naruto_29022024-800x445.jpg" },
 ];
 
 export const Gallery = () => {
