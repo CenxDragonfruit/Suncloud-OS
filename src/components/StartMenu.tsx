@@ -1,14 +1,17 @@
+import { useState } from "react";
+import { Search, LogOut, Lock, User } from "lucide-react";
 import { App } from "./Desktop";
+import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Power, User, Settings } from "lucide-react";
 
 interface StartMenuProps {
   apps: App[];
   onAppOpen: (app: App) => void;
   onClose: () => void;
+  onLogout: () => void;
 }
 
-export const StartMenu = ({ apps, onAppOpen, onClose }: StartMenuProps) => {
+export const StartMenu = ({ apps, onAppOpen, onClose, onLogout }: StartMenuProps) => {
   return (
     <>
       {/* Backdrop */}
@@ -58,14 +61,28 @@ export const StartMenu = ({ apps, onAppOpen, onClose }: StartMenuProps) => {
             </div>
 
             {/* Footer Actions */}
-            <div className="flex items-center justify-end gap-2 pt-4 border-t border-border/30">
-              <Button variant="ghost" size="sm" className="gap-2">
-                <Settings className="w-4 h-4" />
-                Configurações
+            <div className="border-t border-border/40 pt-4 space-y-2">
+              <Button
+                variant="ghost"
+                className="w-full justify-start gap-3 hover:bg-white/10"
+                onClick={() => {
+                  // Lock functionality would go here
+                  onClose();
+                }}
+              >
+                <Lock className="w-4 h-4" />
+                <span className="text-sm">Bloquear</span>
               </Button>
-              <Button variant="ghost" size="sm" className="gap-2 hover:bg-destructive/20 hover:text-destructive">
-                <Power className="w-4 h-4" />
-                Desligar
+              <Button
+                variant="ghost"
+                className="w-full justify-start gap-3 hover:bg-destructive/20 text-destructive"
+                onClick={() => {
+                  onLogout();
+                  onClose();
+                }}
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-sm">Sair</span>
               </Button>
             </div>
           </div>

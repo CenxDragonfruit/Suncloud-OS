@@ -4,17 +4,22 @@ import { Window } from "./Window";
 import { Taskbar } from "./Taskbar";
 import { StartMenu } from "./StartMenu";
 import { Search } from "./Search";
+import { FileExplorer } from "./apps/FileExplorer";
+import { Settings } from "./apps/Settings";
+import { AIChat } from "./apps/AIChat";
+import { Terminal } from "./apps/Terminal";
 import { 
   Folder, 
-  Settings, 
+  Settings as SettingsIcon, 
   Image, 
   FileText, 
-  Terminal, 
+  Terminal as TerminalIcon, 
   Cloud,
   Mail,
   Calendar,
   Music,
-  Video
+  Video,
+  Bot
 } from "lucide-react";
 
 export interface App {
@@ -22,6 +27,7 @@ export interface App {
   name: string;
   icon: React.ReactNode;
   color: string;
+  content?: React.ReactNode;
 }
 
 export interface OpenWindow {
@@ -30,22 +36,88 @@ export interface OpenWindow {
   isMinimized: boolean;
 }
 
-export const Desktop = () => {
+interface DesktopProps {
+  onLogout: () => void;
+  theme: "light" | "dark";
+  onThemeChange: (theme: "light" | "dark") => void;
+}
+
+export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const apps: App[] = [
-    { id: "files", name: "Arquivos", icon: <Folder className="w-8 h-8" />, color: "from-cyan-500 to-blue-500" },
-    { id: "settings", name: "Configurações", icon: <Settings className="w-8 h-8" />, color: "from-purple-500 to-pink-500" },
-    { id: "gallery", name: "Galeria", icon: <Image className="w-8 h-8" />, color: "from-green-500 to-emerald-500" },
-    { id: "docs", name: "Documentos", icon: <FileText className="w-8 h-8" />, color: "from-orange-500 to-red-500" },
-    { id: "terminal", name: "Terminal", icon: <Terminal className="w-8 h-8" />, color: "from-gray-600 to-gray-800" },
-    { id: "cloud", name: "Cloud Drive", icon: <Cloud className="w-8 h-8" />, color: "from-sky-400 to-cyan-500" },
-    { id: "mail", name: "Email", icon: <Mail className="w-8 h-8" />, color: "from-blue-500 to-indigo-600" },
-    { id: "calendar", name: "Calendário", icon: <Calendar className="w-8 h-8" />, color: "from-rose-500 to-pink-600" },
-    { id: "music", name: "Música", icon: <Music className="w-8 h-8" />, color: "from-violet-500 to-purple-600" },
-    { id: "video", name: "Vídeos", icon: <Video className="w-8 h-8" />, color: "from-red-500 to-orange-500" },
+    { 
+      id: "files", 
+      name: "Arquivos", 
+      icon: <Folder className="w-8 h-8" />, 
+      color: "from-cyan-500 to-blue-500",
+      content: <FileExplorer />
+    },
+    { 
+      id: "settings", 
+      name: "Configurações", 
+      icon: <SettingsIcon className="w-8 h-8" />, 
+      color: "from-purple-500 to-pink-500",
+      content: <Settings onThemeChange={onThemeChange} currentTheme={theme} />
+    },
+    { 
+      id: "aichat", 
+      name: "IA Chat", 
+      icon: <Bot className="w-8 h-8" />, 
+      color: "from-blue-500 to-indigo-600",
+      content: <AIChat />
+    },
+    { 
+      id: "terminal", 
+      name: "Terminal", 
+      icon: <TerminalIcon className="w-8 h-8" />, 
+      color: "from-gray-600 to-gray-800",
+      content: <Terminal />
+    },
+    { 
+      id: "gallery", 
+      name: "Galeria", 
+      icon: <Image className="w-8 h-8" />, 
+      color: "from-green-500 to-emerald-500"
+    },
+    { 
+      id: "docs", 
+      name: "Documentos", 
+      icon: <FileText className="w-8 h-8" />, 
+      color: "from-orange-500 to-red-500"
+    },
+    { 
+      id: "cloud", 
+      name: "Cloud Drive", 
+      icon: <Cloud className="w-8 h-8" />, 
+      color: "from-sky-400 to-cyan-500"
+    },
+    { 
+      id: "mail", 
+      name: "Email", 
+      icon: <Mail className="w-8 h-8" />, 
+      color: "from-blue-500 to-indigo-600"
+    },
+    { 
+      id: "calendar", 
+      name: "Calendário", 
+      icon: <Calendar className="w-8 h-8" />, 
+      color: "from-rose-500 to-pink-600"
+    },
+    { 
+      id: "music", 
+      name: "Música", 
+      icon: <Music className="w-8 h-8" />, 
+      color: "from-violet-500 to-purple-600"
+    },
+    { 
+      id: "video", 
+      name: "Vídeos", 
+      icon: <Video className="w-8 h-8" />, 
+      color: "from-red-500 to-orange-500"
+    },
   ];
 
   const handleAppOpen = (app: App) => {
@@ -122,6 +194,7 @@ export const Desktop = () => {
           apps={apps} 
           onAppOpen={handleAppOpen}
           onClose={() => setIsStartMenuOpen(false)}
+          onLogout={onLogout}
         />
       )}
 

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { X, Minus, Maximize2 } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { X, Minus, Maximize2, Minimize2 } from "lucide-react";
 import { App } from "./Desktop";
 import { Button } from "./ui/button";
 
@@ -12,8 +12,14 @@ interface WindowProps {
 
 export const Window = ({ id, app, onClose, onMinimize }: WindowProps) => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [size, setSize] = useState({ width: 600, height: 500 });
+  const [isMaximized, setIsMaximized] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isResizing, setIsResizing] = useState(false);
+  const [resizeDirection, setResizeDirection] = useState<string>("");
+  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  const windowRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -34,16 +40,81 @@ export const Window = ({ id, app, onClose, onMinimize }: WindowProps) => {
 
   const handleMouseUp = () => {
     setIsDragging(false);
+    setIsResizing(false);
   };
+
+  const handleMaximize = () => {
+    if (isMaximized) {
+      setIsMaximized(false);
+    } else {
+      setIsMaximized(true);
+    }
+  };
+
+  const startResize = (e: React.MouseEvent, direction: string) => {
+    e.stopPropagation();
+    setIsResizing(true);
+    setResizeDirection(direction);
+    setResizeStart({
+      x: e.clientX,
+      y: e.clientY,
+      width: size.width,
+      height: size.height,
+    });
+  };
+
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (isResizing) {
+        const deltaX = e.clientX - resizeStart.x;
+        const deltaY = e.clientY - resizeStart.y;
+
+        let newWidth = size.width;
+        let newHeight = size.height;
+
+        if (resizeDirection.includes("e")) {
+          newWidth = Math.max(400, resizeStart.width + deltaX);
+        }
+        if (resizeDirection.includes("s")) {
+          newHeight = Math.max(300, resizeStart.height + deltaY);
+        }
+        if (resizeDirection.includes("w")) {
+          newWidth = Math.max(400, resizeStart.width - deltaX);
+        }
+        if (resizeDirection.includes("n")) {
+          newHeight = Math.max(300, resizeStart.height - deltaY);
+        }
+
+        setSize({ width: newWidth, height: newHeight });
+      }
+    };
+
+    const handleGlobalMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      document.addEventListener("mousemove", handleGlobalMouseMove);
+      document.addEventListener("mouseup", handleGlobalMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleGlobalMouseMove);
+      document.removeEventListener("mouseup", handleGlobalMouseUp);
+    };
+  }, [isResizing, resizeDirection, resizeStart, size]);
 
   return (
     <div
+      ref={windowRef}
       className="absolute pointer-events-auto"
       style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        width: "600px",
-        maxWidth: "90vw",
+        left: isMaximized ? "0" : `${position.x}px`,
+        top: isMaximized ? "0" : `${position.y}px`,
+        width: isMaximized ? "100vw" : `${size.width}px`,
+        height: isMaximized ? "calc(100vh - 88px)" : `${size.height}px`,
+        maxWidth: "100vw",
+        transition: isMaximized ? "all 0.2s ease" : "none",
       }}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -74,8 +145,13 @@ export const Window = ({ id, app, onClose, onMinimize }: WindowProps) => {
               variant="ghost"
               size="icon"
               className="h-8 w-8 hover:bg-secondary"
+              onClick={handleMaximize}
             >
-              <Maximize2 className="h-4 w-4" />
+              {isMaximized ? (
+                <Minimize2 className="h-4 w-4" />
+              ) : (
+                <Maximize2 className="h-4 w-4" />
+              )}
             </Button>
             <Button
               variant="ghost"
@@ -89,37 +165,35 @@ export const Window = ({ id, app, onClose, onMinimize }: WindowProps) => {
         </div>
 
         {/* Window Content */}
-        <div className="p-6 bg-card/40 backdrop-blur-xl min-h-[400px]">
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-foreground text-glow">
-              {app.name}
-            </h2>
-            <p className="text-muted-foreground">
-              Esta é uma simulação do aplicativo {app.name} no CloudOS.
-            </p>
-            <div className="mt-6 space-y-3">
-              <div className="glass-panel rounded-lg p-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span className="text-sm text-foreground">Status: Online</span>
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  Conectado à nuvem CloudOS
-                </div>
-              </div>
-              
-              <div className="glass-panel rounded-lg p-4 space-y-2">
-                <div className="text-sm font-medium text-foreground">Recursos Futuros:</div>
-                <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
-                  <li>Sincronização automática em tempo real</li>
-                  <li>IA integrada para assistência</li>
-                  <li>Interface adaptativa multi-dispositivo</li>
-                  <li>Processamento 100% na nuvem</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+        <div className="bg-card/40 backdrop-blur-xl overflow-hidden" style={{ height: isMaximized ? "calc(100% - 56px)" : `${size.height - 56}px` }}>
+          {app.content}
         </div>
+
+        {/* Resize Handles */}
+        {!isMaximized && (
+          <>
+            <div
+              className="absolute top-0 left-0 right-0 h-1 cursor-n-resize hover:bg-primary/50"
+              onMouseDown={(e) => startResize(e, "n")}
+            />
+            <div
+              className="absolute bottom-0 left-0 right-0 h-1 cursor-s-resize hover:bg-primary/50"
+              onMouseDown={(e) => startResize(e, "s")}
+            />
+            <div
+              className="absolute top-0 bottom-0 left-0 w-1 cursor-w-resize hover:bg-primary/50"
+              onMouseDown={(e) => startResize(e, "w")}
+            />
+            <div
+              className="absolute top-0 bottom-0 right-0 w-1 cursor-e-resize hover:bg-primary/50"
+              onMouseDown={(e) => startResize(e, "e")}
+            />
+            <div
+              className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize hover:bg-primary/50"
+              onMouseDown={(e) => startResize(e, "se")}
+            />
+          </>
+        )}
       </div>
     </div>
   );

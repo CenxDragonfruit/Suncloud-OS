@@ -65,6 +65,46 @@ All colors MUST be HSL.
     --sidebar-border: 200 40% 20%;
     --sidebar-ring: 185 80% 55%;
   }
+
+  .light {
+    /* Light theme */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 185 80% 45%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 180 90% 50%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 185 80% 45%;
+
+    --glass-bg: 0 0% 100% / 0.8;
+    --glass-border: 214.3 31.8% 81.4% / 0.5;
+    --glow-primary: 185 80% 45%;
+    --gradient-start: 210 40% 98%;
+    --gradient-end: 200 60% 95%;
+
+    --window-header: 210 40% 96%;
+    --window-border: 214.3 31.8% 91.4%;
+  }
 }
 
 @layer utilities {
