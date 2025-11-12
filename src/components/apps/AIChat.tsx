@@ -11,33 +11,133 @@ interface Message {
   timestamp: Date;
 }
 
-const qaDatabase: { [key: string]: string } = {
-  "sistema": "O CloudOS é um sistema operacional futurista que funciona 100% na nuvem, permitindo acesso de qualquer dispositivo!",
-  "tempo": "Desculpe, não tenho acesso a informações meteorológicas em tempo real. Mas posso dizer que o futuro é sempre ensolarado no CloudOS! ☀️",
-  "piada": "Por que o computador foi ao médico? Porque estava com um vírus! 😄",
-  "ajuda": "Posso responder perguntas sobre o CloudOS, contar piadas, ou apenas conversar! Pergunte-me algo!",
-  "quem": "Sou a IA integrada do CloudOS, aqui para ajudar você a navegar pelo sistema operacional do futuro!",
-  "como": "Estou funcionando perfeitamente! Processando na nuvem a 100% de eficiência. Como posso ajudar você?",
-};
+interface ConversationNode {
+  id: string;
+  text: string;
+  suggestions?: { text: string; nextId: string }[];
+}
 
-const suggestedQuestions = [
-  "O que é este sistema?",
-  "Como você está?",
-  "Me conte uma piada",
-  "Quem é você?",
-];
+const conversationTree: { [key: string]: ConversationNode } = {
+  start: {
+    id: "start",
+    text: "Olá! Sou a IA integrada do Suncloud OS. Como posso ajudar você hoje?",
+    suggestions: [
+      { text: "Me fale sobre o Suncloud OS", nextId: "about_system" },
+      { text: "Quais aplicativos estão disponíveis?", nextId: "apps" },
+      { text: "Me conte uma piada", nextId: "joke" },
+      { text: "Como você está?", nextId: "how_are_you" },
+    ],
+  },
+  about_system: {
+    id: "about_system",
+    text: "O Suncloud OS é um sistema operacional focado em nuvem e produtividade. É moderno, rápido e funciona 100% no navegador! Você gostaria de saber mais sobre os Aplicativos (A) ou sobre a Segurança (B)?",
+    suggestions: [
+      { text: "Me fale sobre os Aplicativos (A)", nextId: "apps" },
+      { text: "Me fale sobre a Segurança (B)", nextId: "security" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  apps: {
+    id: "apps",
+    text: "Temos vários aplicativos incríveis: Navegador Web, Email, Galeria de Fotos, Editor de Documentos, Player de Música e Vídeo, Terminal e muito mais! Quer detalhes sobre algum deles?",
+    suggestions: [
+      { text: "Me fale sobre o Navegador", nextId: "browser" },
+      { text: "Me fale sobre Email", nextId: "email" },
+      { text: "Quais recursos de mídia?", nextId: "media" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  browser: {
+    id: "browser",
+    text: "O Navegador Web do Suncloud OS é totalmente integrado ao sistema. Você pode navegar por páginas simuladas, usar o SunSearch e acessar conteúdo interno como notícias e sobre o sistema!",
+    suggestions: [
+      { text: "E quanto ao Email?", nextId: "email" },
+      { text: "Voltar aos aplicativos", nextId: "apps" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  email: {
+    id: "email",
+    text: "O cliente de Email oferece uma interface de 3 painéis clássica: pastas, lista de emails e painel de leitura. Totalmente integrado com o calendário!",
+    suggestions: [
+      { text: "Me fale sobre o Calendário", nextId: "calendar" },
+      { text: "Voltar aos aplicativos", nextId: "apps" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  calendar: {
+    id: "calendar",
+    text: "O Calendário permite visualizar seus compromissos em modo Mês, Semana ou Dia. Você pode ver todos os seus eventos de forma organizada!",
+    suggestions: [
+      { text: "Quais recursos de mídia?", nextId: "media" },
+      { text: "Voltar aos aplicativos", nextId: "apps" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  media: {
+    id: "media",
+    text: "Temos uma Galeria de Fotos com visualizador em tela cheia, Player de Música com biblioteca completa e Player de Vídeo com controles avançados!",
+    suggestions: [
+      { text: "Voltar aos aplicativos", nextId: "apps" },
+      { text: "Me fale sobre Segurança", nextId: "security" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  security: {
+    id: "security",
+    text: "O Suncloud OS possui autenticação segura, gerenciamento de sessão e todas as operações são criptografadas. Seus dados estão seguros na nuvem!",
+    suggestions: [
+      { text: "Como funciona o login?", nextId: "login" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  login: {
+    id: "login",
+    text: "O sistema possui uma tela de login completa. Para esta demonstração, use 'user' e senha '1234'. Há também opções de bloquear e fazer logoff!",
+    suggestions: [
+      { text: "Voltar à Segurança", nextId: "security" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  joke: {
+    id: "joke",
+    text: "Por que o computador foi ao médico? Porque estava com um vírus! 😄 Quer ouvir outra?",
+    suggestions: [
+      { text: "Sim, conte outra!", nextId: "joke2" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  joke2: {
+    id: "joke2",
+    text: "Por que o sistema operacional foi à terapia? Porque tinha muitos processos em segundo plano! 😂",
+    suggestions: [
+      { text: "Me fale sobre o sistema", nextId: "about_system" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+  how_are_you: {
+    id: "how_are_you",
+    text: "Estou funcionando perfeitamente! Processando na nuvem a 100% de eficiência. Como posso ajudar você?",
+    suggestions: [
+      { text: "Me fale sobre o sistema", nextId: "about_system" },
+      { text: "Quais aplicativos?", nextId: "apps" },
+      { text: "Voltar ao início", nextId: "start" },
+    ],
+  },
+};
 
 export const AIChat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Olá! Sou a IA integrada do CloudOS. Como posso ajudar você hoje?",
+      text: conversationTree.start.text,
       sender: "ai",
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [currentNode, setCurrentNode] = useState<ConversationNode>(conversationTree.start);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -46,16 +146,30 @@ export const AIChat = () => {
     }
   }, [messages, isTyping]);
 
-  const getAIResponse = (userInput: string): string => {
-    const lowerInput = userInput.toLowerCase();
-    
-    for (const [key, response] of Object.entries(qaDatabase)) {
-      if (lowerInput.includes(key)) {
-        return response;
-      }
-    }
-    
-    return "Essa é uma pergunta interessante! Ainda estou aprendendo sobre esse assunto. Tente perguntar sobre o sistema, pedir uma piada, ou solicitar ajuda!";
+  const handleSuggestionClick = async (nextId: string, suggestionText: string) => {
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: suggestionText,
+      sender: "user",
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setIsTyping(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    const nextNode = conversationTree[nextId] || conversationTree.start;
+    const aiResponse: Message = {
+      id: (Date.now() + 1).toString(),
+      text: nextNode.text,
+      sender: "ai",
+      timestamp: new Date(),
+    };
+
+    setIsTyping(false);
+    setMessages((prev) => [...prev, aiResponse]);
+    setCurrentNode(nextNode);
   };
 
   const handleSend = async () => {
@@ -72,22 +186,17 @@ export const AIChat = () => {
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI typing delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const aiResponse: Message = {
       id: (Date.now() + 1).toString(),
-      text: getAIResponse(input),
+      text: "Desculpe, não entendi. Tente usar as sugestões de perguntas para uma melhor experiência!",
       sender: "ai",
       timestamp: new Date(),
     };
 
     setIsTyping(false);
     setMessages((prev) => [...prev, aiResponse]);
-  };
-
-  const handleSuggestedQuestion = (question: string) => {
-    setInput(question);
   };
 
   return (
@@ -99,7 +208,7 @@ export const AIChat = () => {
             <Bot className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-foreground">IA CloudOS</h3>
+            <h3 className="font-semibold text-foreground">IA Suncloud</h3>
             <p className="text-xs text-muted-foreground">Assistente Inteligente</p>
           </div>
         </div>
@@ -145,18 +254,18 @@ export const AIChat = () => {
         </div>
       </ScrollArea>
 
-      {/* Suggested Questions */}
-      {messages.length === 1 && (
+      {/* Dynamic Suggestions */}
+      {currentNode.suggestions && (
         <div className="px-4 pb-2">
           <p className="text-xs text-muted-foreground mb-2">Perguntas sugeridas:</p>
           <div className="flex flex-wrap gap-2">
-            {suggestedQuestions.map((question, index) => (
+            {currentNode.suggestions.map((suggestion, index) => (
               <button
                 key={index}
-                onClick={() => handleSuggestedQuestion(question)}
+                onClick={() => handleSuggestionClick(suggestion.nextId, suggestion.text)}
                 className="text-xs px-3 py-1 rounded-full bg-secondary hover:bg-secondary/80 text-foreground transition-colors"
               >
-                {question}
+                {suggestion.text}
               </button>
             ))}
           </div>
