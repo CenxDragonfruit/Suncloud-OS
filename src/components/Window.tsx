@@ -8,9 +8,10 @@ interface WindowProps {
   app: App;
   onClose: (id: string) => void;
   onMinimize: (id: string) => void;
+  onMaximize?: (id: string, isMaximized: boolean) => void;
 }
 
-export const Window = ({ id, app, onClose, onMinimize }: WindowProps) => {
+export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps) => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 600, height: 500 });
   const [isMaximized, setIsMaximized] = useState(false);
@@ -44,11 +45,9 @@ export const Window = ({ id, app, onClose, onMinimize }: WindowProps) => {
   };
 
   const handleMaximize = () => {
-    if (isMaximized) {
-      setIsMaximized(false);
-    } else {
-      setIsMaximized(true);
-    }
+    const newMaximizedState = !isMaximized;
+    setIsMaximized(newMaximizedState);
+    onMaximize?.(id, newMaximizedState);
   };
 
   const startResize = (e: React.MouseEvent, direction: string) => {
@@ -112,7 +111,7 @@ export const Window = ({ id, app, onClose, onMinimize }: WindowProps) => {
         left: isMaximized ? "0" : `${position.x}px`,
         top: isMaximized ? "0" : `${position.y}px`,
         width: isMaximized ? "100vw" : `${size.width}px`,
-        height: isMaximized ? "calc(100vh - 88px)" : `${size.height}px`,
+        height: isMaximized ? "100vh" : `${size.height}px`,
         maxWidth: "100vw",
         transition: isMaximized ? "all 0.2s ease" : "none",
       }}
@@ -129,7 +128,7 @@ export const Window = ({ id, app, onClose, onMinimize }: WindowProps) => {
             <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${app.color} flex items-center justify-center text-white shadow-lg`}>
               {app.icon}
             </div>
-            <span className="text-sm font-medium text-foreground">{app.name}</span>
+            <span className="text-sm font-medium text-foreground max-w-[200px] truncate" title={app.name}>{app.name}</span>
           </div>
 
           <div className="flex items-center gap-1">

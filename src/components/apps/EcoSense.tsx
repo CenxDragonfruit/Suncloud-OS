@@ -1,6 +1,7 @@
 import { Leaf, Droplet, Wind, Zap } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const EcoSense = () => {
   const metrics = [
@@ -12,7 +13,8 @@ export const EcoSense = () => {
   const carbonFootprint = 67; // percentage
 
   return (
-    <div className="h-full bg-background/40 p-6 overflow-auto">
+    <ScrollArea className="h-full">
+      <div className="bg-background/40 p-6">
       <div className="text-center mb-6">
         <Leaf className="h-16 w-16 mx-auto text-green-400 mb-3" />
         <h2 className="text-2xl font-bold text-foreground">EcoSense</h2>
@@ -91,6 +93,7 @@ export const EcoSense = () => {
           </div>
         </div>
       </Card>
-    </div>
+      </div>
+    </ScrollArea>
   );
 };

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Briefcase, GraduationCap, Gamepad2, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type WorkMode = "work" | "study" | "leisure";
 
@@ -38,7 +39,8 @@ export const SynthWork = () => {
   const currentModeData = modes[currentMode];
 
   return (
-    <div className="h-full bg-background/40 p-6 overflow-auto">
+    <ScrollArea className="h-full">
+      <div className="bg-background/40 p-6">
       <div className="text-center mb-6">
         <Monitor className="h-16 w-16 mx-auto text-primary mb-3" />
         <h2 className="text-2xl font-bold text-foreground">SynthWork</h2>
@@ -111,6 +113,7 @@ export const SynthWork = () => {
           Salvar Layout Atual
         </Button>
       </div>
-    </div>
+      </div>
+    </ScrollArea>
   );
 };

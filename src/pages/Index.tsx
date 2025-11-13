@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Desktop } from "@/components/Desktop";
 import { Login } from "@/components/Login";
+import { SystemProvider } from "@/contexts/SystemContext";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,11 +21,13 @@ const Index = () => {
   }
 
   return (
-    <Desktop 
-      onLogout={() => setIsLoggedIn(false)} 
-      theme={theme}
-      onThemeChange={setTheme}
-    />
+    <SystemProvider>
+      <Desktop 
+        onLogout={() => setIsLoggedIn(false)} 
+        theme={theme}
+        onThemeChange={setTheme}
+      />
+    </SystemProvider>
   );
 };
 
