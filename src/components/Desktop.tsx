@@ -15,6 +15,14 @@ import { CalendarApp } from "./apps/CalendarApp";
 import { Music } from "./apps/Music";
 import { Video } from "./apps/Video";
 import { Browser } from "./apps/Browser";
+import { SmartPower } from "./apps/SmartPower";
+import { SmartDashboard } from "./apps/SmartDashboard";
+import { EcoSense } from "./apps/EcoSense";
+import { SkyLink } from "./apps/SkyLink";
+import { SynthWork } from "./apps/SynthWork";
+import { SoundSphere } from "./apps/SoundSphere";
+import { TimeVault } from "./apps/TimeVault";
+import { CloudDrive } from "./apps/CloudDrive";
 import { 
   Folder, 
   Settings as SettingsIcon, 
@@ -27,7 +35,14 @@ import {
   Music as MusicIcon,
   Video as VideoIcon,
   Bot,
-  Globe
+  Globe,
+  LayoutDashboard,
+  Zap,
+  Leaf,
+  Wifi,
+  Monitor,
+  Volume2,
+  Clock
 } from "lucide-react";
 
 export interface App {
@@ -57,6 +72,13 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
 
   const apps: App[] = [
     { 
+      id: "dashboard", 
+      name: "SmartDashboard", 
+      icon: <LayoutDashboard className="w-8 h-8" />, 
+      color: "from-cyan-500 to-blue-500",
+      content: <SmartDashboard />
+    },
+    { 
       id: "browser", 
       name: "Navegador", 
       icon: <Globe className="w-8 h-8" />, 
@@ -69,6 +91,13 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
       icon: <Folder className="w-8 h-8" />, 
       color: "from-cyan-500 to-blue-500",
       content: <FileExplorer />
+    },
+    { 
+      id: "cloud", 
+      name: "Cloud Drive", 
+      icon: <Cloud className="w-8 h-8" />, 
+      color: "from-sky-400 to-cyan-500",
+      content: <CloudDrive />
     },
     { 
       id: "settings", 
@@ -106,12 +135,6 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
       content: <Documents />
     },
     { 
-      id: "cloud", 
-      name: "Cloud Drive", 
-      icon: <Cloud className="w-8 h-8" />, 
-      color: "from-sky-400 to-cyan-500"
-    },
-    { 
       id: "mail", 
       name: "Email", 
       icon: <Mail className="w-8 h-8" />, 
@@ -139,6 +162,48 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
       color: "from-red-500 to-orange-500",
       content: <Video />
     },
+    { 
+      id: "power", 
+      name: "SmartPower", 
+      icon: <Zap className="w-8 h-8" />, 
+      color: "from-yellow-500 to-orange-500",
+      content: <SmartPower />
+    },
+    { 
+      id: "eco", 
+      name: "EcoSense", 
+      icon: <Leaf className="w-8 h-8" />, 
+      color: "from-green-500 to-teal-500",
+      content: <EcoSense />
+    },
+    { 
+      id: "skylink", 
+      name: "SkyLink", 
+      icon: <Wifi className="w-8 h-8" />, 
+      color: "from-blue-400 to-cyan-400",
+      content: <SkyLink />
+    },
+    { 
+      id: "synthwork", 
+      name: "SynthWork", 
+      icon: <Monitor className="w-8 h-8" />, 
+      color: "from-indigo-500 to-purple-500",
+      content: <SynthWork />
+    },
+    { 
+      id: "sound", 
+      name: "SoundSphere", 
+      icon: <Volume2 className="w-8 h-8" />, 
+      color: "from-purple-500 to-pink-500",
+      content: <SoundSphere />
+    },
+    { 
+      id: "timevault", 
+      name: "TimeVault", 
+      icon: <Clock className="w-8 h-8" />, 
+      color: "from-amber-500 to-orange-500",
+      content: <TimeVault />
+    }
   ];
 
   const handleAppOpen = (app: App) => {
