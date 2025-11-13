@@ -1,29 +1,15 @@
 import { useState } from "react";
-import { Clock, FileText, Mail, Calendar, Settings, Terminal } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-
-interface TimelineEvent {
-  time: string;
-  app: string;
-  icon: any;
-  action: string;
-}
+import { useSystem, SystemEvent } from "@/contexts/SystemContext";
 
 export const TimeVault = () => {
-  const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
+  const { events } = useSystem();
+  const [selectedEvent, setSelectedEvent] = useState<SystemEvent | null>(null);
 
-  const timeline: TimelineEvent[] = [
-    { time: "09:00", app: "SmartDashboard", icon: Calendar, action: "Painel aberto" },
-    { time: "09:32", app: "EcoSense", icon: Settings, action: "Visualizado métricas" },
-    { time: "10:15", app: "Email", icon: Mail, action: "3 emails lidos" },
-    { time: "11:20", app: "Documentos", icon: FileText, action: "Arquivo editado: projeto.txt" },
-    { time: "12:00", app: "Terminal", icon: Terminal, action: "Comandos executados" },
-    { time: "14:30", app: "Calendário", icon: Calendar, action: "Reunião agendada" },
-    { time: "15:45", app: "SmartPower", icon: Settings, action: "Modo alterado para Eco" },
-    { time: "16:20", app: "Chat IA", icon: FileText, action: "Conversa sobre CloudOS" },
-  ];
+  const timeline = [...events].reverse();
 
   return (
     <div className="h-full bg-background/40 flex flex-col">
@@ -43,7 +29,14 @@ export const TimeVault = () => {
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary/30" />
             
             <div className="space-y-4">
-              {timeline.map((event, i) => (
+              {timeline.length === 0 ? (
+                <div className="text-center py-12">
+                  <Clock className="h-12 w-12 mx-auto text-muted-foreground mb-3 opacity-50" />
+                  <p className="text-muted-foreground">Nenhuma atividade registrada ainda.</p>
+                  <p className="text-sm text-muted-foreground mt-2">Comece a usar o sistema para ver o histórico.</p>
+                </div>
+              ) : (
+                timeline.map((event, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedEvent(event)}
@@ -67,7 +60,8 @@ export const TimeVault = () => {
                     <p className="text-sm text-muted-foreground">{event.action}</p>
                   </div>
                 </button>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </ScrollArea>

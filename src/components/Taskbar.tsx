@@ -12,9 +12,10 @@ interface TaskbarProps {
   onStartMenuToggle: () => void;
   onSearchToggle: () => void;
   onTaskbarClick: (windowId: string) => void;
+  isHidden?: boolean;
 }
 
-export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTaskbarClick }: TaskbarProps) => {
+export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTaskbarClick, isHidden = false }: TaskbarProps) => {
   const [activeFlyout, setActiveFlyout] = useState<string | null>(null);
   
   const currentTime = new Date().toLocaleTimeString('pt-BR', { 
@@ -32,7 +33,7 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
   };
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 z-50">
+    <div className={`absolute bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${isHidden ? 'translate-y-full' : 'translate-y-0'}`}>
       <div className="mx-4 mb-4 glass-panel rounded-2xl px-4 py-2 shadow-2xl backdrop-blur-2xl">
         <div className="flex items-center justify-between gap-4">
           {/* Start Button */}

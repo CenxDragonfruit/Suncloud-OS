@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Wifi, Bluetooth, Smartphone, Watch, Headphones, Signal } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const SkyLink = () => {
   const [wifiEnabled, setWifiEnabled] = useState(true);
@@ -22,7 +23,8 @@ export const SkyLink = () => {
   const latency = 12; // ms
 
   return (
-    <div className="h-full bg-background/40 p-6 overflow-auto">
+    <ScrollArea className="h-full">
+      <div className="bg-background/40 p-6">
       <div className="text-center mb-6">
         <Signal className="h-16 w-16 mx-auto text-primary mb-3 animate-pulse" />
         <h2 className="text-2xl font-bold text-foreground">SkyLink</h2>
@@ -125,6 +127,7 @@ export const SkyLink = () => {
           </div>
         </div>
       </Card>
-    </div>
+      </div>
+    </ScrollArea>
   );
 };

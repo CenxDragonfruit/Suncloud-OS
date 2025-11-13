@@ -3,6 +3,7 @@ import { Battery, Zap, Monitor, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type PowerMode = "performance" | "balanced" | "eco";
 
@@ -38,7 +39,8 @@ export const SmartPower = () => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-background/40 p-6 gap-4">
+    <ScrollArea className="h-full">
+      <div className="flex flex-col bg-background/40 p-6 gap-4">
       <div className="text-center mb-4">
         <Battery className="h-16 w-16 mx-auto text-primary mb-2 animate-pulse" />
         <h2 className="text-2xl font-bold text-foreground">SmartPower Manager</h2>
@@ -100,6 +102,7 @@ export const SmartPower = () => {
           Sistema entrando em modo econômico por inatividade...
         </div>
       )}
-    </div>
+      </div>
+    </ScrollArea>
   );
 };

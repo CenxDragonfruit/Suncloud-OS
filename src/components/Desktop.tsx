@@ -4,6 +4,7 @@ import { Window } from "./Window";
 import { Taskbar } from "./Taskbar";
 import { StartMenu } from "./StartMenu";
 import { Search } from "./Search";
+import { useSystem } from "@/contexts/SystemContext";
 import { FileExplorer } from "./apps/FileExplorer";
 import { Settings } from "./apps/Settings";
 import { AIChat } from "./apps/AIChat";
@@ -57,6 +58,7 @@ export interface OpenWindow {
   id: string;
   app: App;
   isMinimized: boolean;
+  isMaximized?: boolean;
 }
 
 interface DesktopProps {
@@ -66,9 +68,11 @@ interface DesktopProps {
 }
 
 export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
+  const { logEvent } = useSystem();
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [maximizedWindows, setMaximizedWindows] = useState<Set<string>>(new Set());
 
   const apps: App[] = [
     { 
@@ -209,19 +213,97 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
   const handleAppOpen = (app: App) => {
     const isAlreadyOpen = openWindows.find(w => w.app.id === app.id);
     if (!isAlreadyOpen) {
-      setOpenWindows([...openWindows, { id: Date.now().toString(), app, isMinimized: false }]);
+      setOpenWindows([...openWindows, { id: Date.now().toString(), app, isMinimized: false, isMaximized: false }]);
+      logEvent(app.name, app.icon, "Aplicativo aberto");
+    } else {
+      // Se já está aberto, apenas restaura se estiver minimizado
+      if (isAlreadyOpen.isMinimized) {
+        handleWindowMinimize(isAlreadyOpen.id);
+      }
     }
     setIsStartMenuOpen(false);
   };
 
   const handleWindowClose = (windowId: string) => {
+    const window = openWindows.find(w => w.id === windowId);
+    if (window) {
+      logEvent(window.app.name, window.app.icon, "Aplicativo fechado");
+    }
     setOpenWindows(openWindows.filter(w => w.id !== windowId));
+    setMaximizedWindows(prev => {
+      const next = new Set(prev);
+      next.delete(windowId);
+      return next;
+    });
   };
 
   const handleWindowMinimize = (windowId: string) => {
+    const window = openWindows.find(w => w.id === windowId);
+    if (window) {
+      logEvent(window.app.name, window.app.icon, window.isMinimized ? "Janela restaurada" : "Janela minimizada");
+    }
     setOpenWindows(openWindows.map(w => 
       w.id === windowId ? { ...w, isMinimized: !w.isMinimized } : w
     ));
+  };
+
+  const handleWindowMaximize = (windowId: string, isMaximized: boolean) => {
+    const window = openWindows.find(w => w.id === windowId);
+    if (window) {
+      logEvent(window.app.name, window.app.icon, isMaximized ? "Janela maximizada" : "Janela restaurada");
+    }
+    setOpenWindows(openWindows.map(w => 
+      w.id === windowId ? { ...w, isMaximized } : w
+    ));
+    setMaximizedWindows(prev => {
+      const next = new Set(prev);
+      if (isMaximized) {
+        next.add(windowId);
+      } else {
+        next.delete(windowId);
+      }
+      return next;
+    });
+  };
+
+  const organizeWindows = () => {
+    const visibleWindows = openWindows.filter(w => !w.isMinimized);
+    if (visibleWindows.length === 0) return;
+
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight - 100; // Account for taskbar
+    
+    logEvent("Sistema", <Monitor className="w-8 h-8" />, `Organizando ${visibleWindows.length} janela(s)`);
+
+    if (visibleWindows.length === 1) {
+      // Center single window
+      setOpenWindows(openWindows.map(w => {
+        if (w.id === visibleWindows[0].id) {
+          return { ...w, isMaximized: false };
+        }
+        return w;
+      }));
+    } else if (visibleWindows.length === 2) {
+      // Split screen for two windows
+      setOpenWindows(openWindows.map(w => {
+        if (w.id === visibleWindows[0].id || w.id === visibleWindows[1].id) {
+          return { ...w, isMaximized: false };
+        }
+        return w;
+      }));
+    } else {
+      // Grid layout for 3+ windows
+      const cols = Math.ceil(Math.sqrt(visibleWindows.length));
+      const rows = Math.ceil(visibleWindows.length / cols);
+      
+      setOpenWindows(openWindows.map(w => {
+        const index = visibleWindows.findIndex(vw => vw.id === w.id);
+        if (index !== -1) {
+          return { ...w, isMaximized: false };
+        }
+        return w;
+      }));
+    }
   };
 
   const handleTaskbarClick = (windowId: string) => {
@@ -230,6 +312,8 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
       handleWindowMinimize(windowId);
     }
   };
+
+  const hasMaximizedWindow = maximizedWindows.size > 0;
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-end))]">
@@ -269,6 +353,7 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
               app={window.app}
               onClose={handleWindowClose}
               onMinimize={handleWindowMinimize}
+              onMaximize={handleWindowMaximize}
             />
           )
         ))}
@@ -290,6 +375,7 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
         onStartMenuToggle={() => setIsStartMenuOpen(!isStartMenuOpen)}
         onSearchToggle={() => setIsSearchOpen(!isSearchOpen)}
         onTaskbarClick={handleTaskbarClick}
+        isHidden={hasMaximizedWindow}
       />
 
       <style>{`

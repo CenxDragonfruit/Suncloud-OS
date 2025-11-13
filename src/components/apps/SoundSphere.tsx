@@ -3,6 +3,7 @@ import { Volume2, Headphones, Mic, Focus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type SoundMode = "focus" | "relax" | "meeting";
 
@@ -45,7 +46,8 @@ export const SoundSphere = () => {
   const currentMode = modes[mode];
 
   return (
-    <div className="h-full bg-background/40 p-6 overflow-auto">
+    <ScrollArea className="h-full">
+      <div className="bg-background/40 p-6">
       <div className="text-center mb-6">
         <Volume2 className="h-16 w-16 mx-auto text-primary mb-3 animate-pulse" />
         <h2 className="text-2xl font-bold text-foreground">SoundSphere</h2>
@@ -116,6 +118,7 @@ export const SoundSphere = () => {
           })}
         </div>
       </Card>
-    </div>
+      </div>
+    </ScrollArea>
   );
 };
