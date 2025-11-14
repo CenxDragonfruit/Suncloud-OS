@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { X, Minus, Maximize2, Minimize2 } from "lucide-react";
-import { App } from "./Desktop";
-import { Button } from "./ui/button";
+import { App } from "./Desktop"; // Ajuste o caminho se necessário
+import { Button } from "./ui/button"; // Ajuste o caminho se necessário
 
 interface WindowProps {
   id: string;
@@ -30,20 +30,6 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
     });
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging) {
-      setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y,
-      });
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    setIsResizing(false);
-  };
-
   const handleMaximize = () => {
     const newMaximizedState = !isMaximized;
     setIsMaximized(newMaximizedState);
@@ -64,12 +50,19 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
 
   useEffect(() => {
     const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (isDragging) {
+        setPosition({
+          x: e.clientX - dragOffset.x,
+          y: e.clientY - dragOffset.y,
+        });
+      }
+
       if (isResizing) {
         const deltaX = e.clientX - resizeStart.x;
         const deltaY = e.clientY - resizeStart.y;
 
-        let newWidth = size.width;
-        let newHeight = size.height;
+        let newWidth = resizeStart.width;
+        let newHeight = resizeStart.height;
 
         if (resizeDirection.includes("e")) {
           newWidth = Math.max(400, resizeStart.width + deltaX);
@@ -89,10 +82,11 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
     };
 
     const handleGlobalMouseUp = () => {
+      setIsDragging(false);
       setIsResizing(false);
     };
 
-    if (isResizing) {
+    if (isDragging || isResizing) {
       document.addEventListener("mousemove", handleGlobalMouseMove);
       document.addEventListener("mouseup", handleGlobalMouseUp);
     }
@@ -101,7 +95,13 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
       document.removeEventListener("mousemove", handleGlobalMouseMove);
       document.removeEventListener("mouseup", handleGlobalMouseUp);
     };
-  }, [isResizing, resizeDirection, resizeStart, size]);
+  }, [
+    isDragging,
+    dragOffset,
+    isResizing,
+    resizeDirection,
+    resizeStart
+  ]);
 
   return (
     <div
@@ -110,15 +110,14 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
       style={{
         left: isMaximized ? "0" : `${position.x}px`,
         top: isMaximized ? "0" : `${position.y}px`,
-        width: isMaximized ? "100vw" : `${size.width}px`,
-        height: isMaximized ? "100vh" : `${size.height}px`,
+        width: isMaximized ? "100%" : `${size.width}px`,
+        height: isMaximized ? "100%" : `${size.height}px`,
         maxWidth: "100vw",
         transition: isMaximized ? "all 0.2s ease" : "none",
       }}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
     >
-      <div className="window-chrome rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+      {/* 👇 AQUI ESTÁ A CORREÇÃO: foi adicionado h-full */}
+      <div className="window-chrome rounded-xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300 h-full">
         {/* Window Header */}
         <div
           className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-card to-card/90 border-b border-border/40 cursor-move"
@@ -137,6 +136,7 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
               size="icon"
               className="h-8 w-8 hover:bg-secondary"
               onClick={() => onMinimize(id)}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               <Minus className="h-4 w-4" />
             </Button>
@@ -145,6 +145,7 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
               size="icon"
               className="h-8 w-8 hover:bg-secondary"
               onClick={handleMaximize}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               {isMaximized ? (
                 <Minimize2 className="h-4 w-4" />
@@ -157,6 +158,7 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
               size="icon"
               className="h-8 w-8 hover:bg-destructive/20 hover:text-destructive"
               onClick={() => onClose(id)}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               <X className="h-4 w-4" />
             </Button>

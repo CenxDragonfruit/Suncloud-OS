@@ -3,6 +3,8 @@ import { Search, LogOut, Lock, User } from "lucide-react";
 import { App } from "./Desktop";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+// 1. Importe o ScrollArea
+import { ScrollArea } from "./ui/scroll-area";
 
 interface StartMenuProps {
   apps: App[];
@@ -40,24 +42,29 @@ export const StartMenu = ({ apps, onAppOpen, onClose, onLogout }: StartMenuProps
           <div className="p-6 bg-card/40 backdrop-blur-xl">
             <div className="mb-4">
               <h3 className="text-sm font-medium text-muted-foreground mb-3">Aplicativos</h3>
-              <div className="grid grid-cols-4 gap-4">
-                {apps.map((app) => (
-                  <button
-                    key={app.id}
-                    onClick={() => onAppOpen(app)}
-                    className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-white/10 transition-all duration-300 group"
-                  >
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${app.color} flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:shadow-primary/30 transition-all`}>
-                      <div className="text-white scale-75">
-                        {app.icon}
+              
+              {/* 2. Adicione o ScrollArea com altura fixa aqui */}
+              {/* Você pode ajustar o h-[350px] para a altura que preferir */}
+              <ScrollArea className="h-[350px] pr-4">
+                <div className="grid grid-cols-4 gap-4">
+                  {apps.map((app) => (
+                    <button
+                      key={app.id}
+                      onClick={() => onAppOpen(app)}
+                      className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-white/10 transition-all duration-300 group"
+                    >
+                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${app.color} flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:shadow-primary/30 transition-all`}>
+                        <div className="text-white scale-75">
+                          {app.icon}
+                        </div>
                       </div>
-                    </div>
-                    <span className="text-xs text-foreground text-center max-w-full truncate">
-                      {app.name}
-                    </span>
-                  </button>
-                ))}
-              </div>
+                      <span className="text-xs text-foreground text-center max-w-full truncate">
+                        {app.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </ScrollArea> 
             </div>
 
             {/* Footer Actions */}

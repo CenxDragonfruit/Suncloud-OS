@@ -238,14 +238,29 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
   };
 
   const handleWindowMinimize = (windowId: string) => {
-    const window = openWindows.find(w => w.id === windowId);
-    if (window) {
-      logEvent(window.app.name, window.app.icon, window.isMinimized ? "Janela restaurada" : "Janela minimizada");
+    const window = openWindows.find(w => w.id === windowId);
+    if (window) {
+      logEvent(window.app.name, window.app.icon, window.isMinimized ? "Janela restaurada" : "Janela minimizada");
+    }
+
+    // Descobre se estamos minimizando ou restaurando
+    const isBeingMinimized = window && !window.isMinimized;
+
+    setOpenWindows(openWindows.map(w => 
+      w.id === windowId ? { ...w, isMinimized: !w.isMinimized } : w
+    ));
+
+    // 👇 AQUI ESTÁ A CORREÇÃO
+    // Se a janela estiver SENDO minimizada (não restaurada),
+    // devemos também removê-la da lista de janelas maximizadas.
+    if (isBeingMinimized) {
+      setMaximizedWindows(prev => {
+        const next = new Set(prev);
+        next.delete(windowId);
+        return next;
+      });
     }
-    setOpenWindows(openWindows.map(w => 
-      w.id === windowId ? { ...w, isMinimized: !w.isMinimized } : w
-    ));
-  };
+  };
 
   const handleWindowMaximize = (windowId: string, isMaximized: boolean) => {
     const window = openWindows.find(w => w.id === windowId);
