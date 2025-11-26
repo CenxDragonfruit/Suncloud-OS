@@ -24,6 +24,7 @@ import { SynthWork } from "./apps/SynthWork";
 import { SoundSphere } from "./apps/SoundSphere";
 import { TimeVault } from "./apps/TimeVault";
 import { CloudDrive } from "./apps/CloudDrive";
+import { BioMonitor } from "./apps/BioMonitor";
 import { 
   Folder, 
   Settings as SettingsIcon, 
@@ -43,7 +44,8 @@ import {
   Wifi,
   Monitor,
   Volume2,
-  Clock
+  Clock,
+  Activity
 } from "lucide-react";
 
 export interface App {
@@ -207,6 +209,13 @@ export const Desktop = ({ onLogout, theme, onThemeChange }: DesktopProps) => {
       icon: <Clock className="w-8 h-8" />, 
       color: "from-amber-500 to-orange-500",
       content: <TimeVault />
+    },
+    { 
+      id: "biomonitor", 
+      name: "Bio-Monitor", 
+      icon: <Activity className="w-8 h-8" />, 
+      color: "from-cyan-500 to-blue-600",
+      content: <BioMonitor />
     }
   ];
 
