@@ -45,14 +45,14 @@ export const Login = ({ onLogin }: LoginProps) => {
           <div className="glass-panel rounded-2xl p-8 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Logo */}
             <div className="flex justify-center mb-8">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center glow-effect">
-                <Cpu className="w-12 h-12 text-white" />
+              <div className="w-20 h-20 rounded-2xl bg-sky-950 flex items-center justify-center shadow-lg shadow-cyan-500/50">
+                <img src="/thumbnails/suncloud.png" className="w-12 h-12 text-white" />
               </div>
             </div>
 
             {/* Title */}
             <h1 className="text-3xl font-bold text-center text-foreground mb-2 text-glow">
-              CloudOS
+              SunCloud OS
             </h1>
             <p className="text-center text-muted-foreground mb-8">
               Sistema Operacional do Futuro
