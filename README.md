@@ -20,7 +20,7 @@ Construído com uma arquitetura modular e moderna, o Suncloud OS simula a famili
 *   **Experiência de Desktop:** Gerenciamento de janelas, barra de tarefas e menu iniciar reativos.
 *   **Stack Tecnológica Moderna:** Desenvolvido com React, TypeScript e Vite para alta performance.
 *   **Design System Consistente:** Utiliza Tailwind CSS e shadcn-ui para uma interface de usuário coesa e acessível.
-*   **Ecossistema de Apps:** Inclui módulos como `AIChat`, `SmartPower`, `FileExplorer`, `Terminal` e `CloudDrive`.
+*   **Ecossistema de Apps Expansivo:** Inclui módulos de produtividade, multimídia, sistema e integração com IoT/IA.
 
 ---
 
@@ -107,15 +107,24 @@ O Suncloud OS é composto por um rico ecossistema de aplicações. Cada módulo 
 | ID | Nome da Aplicação | Arquivo | Categoria |
 | :--- | :--- | :--- | :--- |
 | `dashboard` | **SmartDashboard** | `SmartDashboard.tsx` | IoT/Sistema |
-| `aichat` | **IA Chat** | `AIChat.tsx` | Inteligência Artificial |
+| `browser` | **Navegador** | `Browser.tsx` | Utilidade |
 | `files` | **Arquivos** | `FileExplorer.tsx` | Sistema/Produtividade |
 | `cloud` | **Cloud Drive** | `CloudDrive.tsx` | Armazenamento em Nuvem |
-| `power` | **SmartPower** | `SmartPower.tsx` | IoT/Energia |
-| `eco` | **EcoSense** | `EcoSense.tsx` | Sustentabilidade |
-| `terminal` | **Terminal** | `Terminal.tsx` | Sistema/CLI Simulado |
 | `settings` | **Configurações** | `Settings.tsx` | Sistema |
+| `aichat` | **IA Chat** | `AIChat.tsx` | Inteligência Artificial |
+| `terminal` | **Terminal** | `Terminal.tsx` | Sistema/CLI Simulado |
+| `gallery` | **Galeria** | `Gallery.tsx` | Multimídia |
+| `docs` | **Documentos** | `Documents.tsx` | Produtividade |
 | `mail` | **Email** | `Email.tsx` | Produtividade |
 | `calendar` | **Calendário** | `CalendarApp.tsx` | Produtividade |
+| `music` | **Música** | `Music.tsx` | Multimídia |
+| `video` | **Vídeos** | `Video.tsx` | Multimídia |
+| `power` | **SmartPower** | `SmartPower.tsx` | IoT/Energia |
+| `eco` | **EcoSense** | `EcoSense.tsx` | Sustentabilidade |
+| `skylink` | **SkyLink** | `SkyLink.tsx` | Conectividade |
+| `synthwork` | **SynthWork** | `SynthWork.tsx` | Multimídia/Criação |
+| `sound` | **SoundSphere** | `SoundSphere.tsx` | Multimídia/Áudio |
+| `timevault` | **TimeVault** | `TimeVault.tsx` | Sistema/Backup |
 
 ---
 
