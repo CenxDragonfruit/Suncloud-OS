@@ -6,6 +6,8 @@ import { WiFiFlyout } from "./taskbar/WiFiFlyout";
 import { BatteryFlyout } from "./taskbar/BatteryFlyout";
 import { NotificationsFlyout } from "./taskbar/NotificationsFlyout";
 import { DateTimeFlyout } from "./taskbar/DateTimeFlyout";
+import { AudioControl } from "./AudioControl";
+import { useSound } from "@/hooks/useSound";
 
 interface TaskbarProps {
   openWindows: OpenWindow[];
@@ -16,6 +18,7 @@ interface TaskbarProps {
 }
 
 export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTaskbarClick, isHidden = false }: TaskbarProps) => {
+  const { playClick, playHover } = useSound();
   const [activeFlyout, setActiveFlyout] = useState<string | null>(null);
   
   const currentTime = new Date().toLocaleTimeString('pt-BR', { 
@@ -38,7 +41,11 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
         <div className="flex items-center justify-between gap-4">
           {/* Start Button */}
           <Button
-            onClick={onStartMenuToggle}
+            onClick={() => {
+              playClick();
+              onStartMenuToggle();
+            }}
+            onMouseEnter={() => playHover()}
             variant="ghost"
             size="icon"
             className="h-12 w-12 rounded-xl hover:bg-primary/20 glow-effect"
@@ -48,7 +55,11 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
 
           {/* Search Button */}
           <Button
-            onClick={onSearchToggle}
+            onClick={() => {
+              playClick();
+              onSearchToggle();
+            }}
+            onMouseEnter={() => playHover()}
             variant="ghost"
             className="h-12 px-6 rounded-xl hover:bg-secondary flex-1 max-w-md justify-start gap-2"
           >
@@ -61,7 +72,11 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
             {openWindows.map((window) => (
               <Button
                 key={window.id}
-                onClick={() => onTaskbarClick(window.id)}
+                onClick={() => {
+                  playClick();
+                  onTaskbarClick(window.id);
+                }}
+                onMouseEnter={() => playHover()}
                 variant="ghost"
                 size="icon"
                 className={`h-12 w-12 rounded-xl ${
@@ -79,11 +94,16 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
 
           {/* System Tray */}
           <div className="flex items-center gap-2 ml-auto relative">
+            <AudioControl />
             <Button 
               variant="ghost" 
               size="icon" 
               className="h-10 w-10 rounded-lg"
-              onClick={() => toggleFlyout("wifi")}
+              onClick={() => {
+                playClick();
+                toggleFlyout("wifi");
+              }}
+              onMouseEnter={() => playHover()}
             >
               <Wifi className="h-4 w-4 text-primary" />
             </Button>
@@ -91,7 +111,11 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
               variant="ghost" 
               size="icon" 
               className="h-10 w-10 rounded-lg"
-              onClick={() => toggleFlyout("battery")}
+              onClick={() => {
+                playClick();
+                toggleFlyout("battery");
+              }}
+              onMouseEnter={() => playHover()}
             >
               <Battery className="h-4 w-4 text-primary" />
             </Button>
@@ -99,13 +123,21 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
               variant="ghost" 
               size="icon" 
               className="h-10 w-10 rounded-lg"
-              onClick={() => toggleFlyout("notifications")}
+              onClick={() => {
+                playClick();
+                toggleFlyout("notifications");
+              }}
+              onMouseEnter={() => playHover()}
             >
               <Bell className="h-4 w-4 text-muted-foreground" />
             </Button>
             <button 
               className="px-3 py-2 text-right rounded-lg hover:bg-secondary/50 transition-colors"
-              onClick={() => toggleFlyout("datetime")}
+              onClick={() => {
+                playClick();
+                toggleFlyout("datetime");
+              }}
+              onMouseEnter={() => playHover()}
             >
               <div className="text-sm font-medium text-foreground">{currentTime}</div>
               <div className="text-xs text-muted-foreground">{currentDate}</div>

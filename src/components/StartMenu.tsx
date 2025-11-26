@@ -3,8 +3,8 @@ import { Search, LogOut, Lock, User } from "lucide-react";
 import { App } from "./Desktop";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-// 1. Importe o ScrollArea
 import { ScrollArea } from "./ui/scroll-area";
+import { useSound } from "@/hooks/useSound";
 
 interface StartMenuProps {
   apps: App[];
@@ -14,6 +14,7 @@ interface StartMenuProps {
 }
 
 export const StartMenu = ({ apps, onAppOpen, onClose, onLogout }: StartMenuProps) => {
+  const { playClick, playHover } = useSound();
   return (
     <>
       {/* Backdrop */}
@@ -50,7 +51,11 @@ export const StartMenu = ({ apps, onAppOpen, onClose, onLogout }: StartMenuProps
                   {apps.map((app) => (
                     <button
                       key={app.id}
-                      onClick={() => onAppOpen(app)}
+                      onClick={() => {
+                        playClick();
+                        onAppOpen(app);
+                      }}
+                      onMouseEnter={() => playHover()}
                       className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-white/10 transition-all duration-300 group"
                     >
                       <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${app.color} flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:shadow-primary/30 transition-all`}>
@@ -73,9 +78,10 @@ export const StartMenu = ({ apps, onAppOpen, onClose, onLogout }: StartMenuProps
                 variant="ghost"
                 className="w-full justify-start gap-3 hover:bg-white/10"
                 onClick={() => {
-                  // Lock functionality would go here
+                  playClick();
                   onClose();
                 }}
+                onMouseEnter={() => playHover()}
               >
                 <Lock className="w-4 h-4" />
                 <span className="text-sm">Bloquear</span>
@@ -84,9 +90,11 @@ export const StartMenu = ({ apps, onAppOpen, onClose, onLogout }: StartMenuProps
                 variant="ghost"
                 className="w-full justify-start gap-3 hover:bg-destructive/20 text-destructive"
                 onClick={() => {
+                  playClick();
                   onLogout();
                   onClose();
                 }}
+                onMouseEnter={() => playHover()}
               >
                 <LogOut className="w-4 h-4" />
                 <span className="text-sm">Sair</span>

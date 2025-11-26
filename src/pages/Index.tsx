@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Desktop } from "@/components/Desktop";
 import { Login } from "@/components/Login";
 import { SystemProvider } from "@/contexts/SystemContext";
+import { AudioProvider } from "@/contexts/AudioContext";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,13 +22,15 @@ const Index = () => {
   }
 
   return (
-    <SystemProvider>
-      <Desktop 
-        onLogout={() => setIsLoggedIn(false)} 
-        theme={theme}
-        onThemeChange={setTheme}
-      />
-    </SystemProvider>
+    <AudioProvider>
+      <SystemProvider>
+        <Desktop 
+          onLogout={() => setIsLoggedIn(false)} 
+          theme={theme}
+          onThemeChange={setTheme}
+        />
+      </SystemProvider>
+    </AudioProvider>
   );
 };
 
