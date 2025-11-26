@@ -18,6 +18,7 @@ Construído com uma arquitetura modular e moderna, o Suncloud OS simula a famili
 
 *   **Arquitetura Modular:** Cada aplicação é um módulo independente, facilitando a manutenção e a escalabilidade.
 *   **Experiência de Desktop:** Gerenciamento de janelas, barra de tarefas e menu iniciar reativos.
+*   **Feedback Auditivo:** Sistema de áudio procedural com a Web Audio API para sons de interface futuristas.
 *   **Stack Tecnológica Moderna:** Desenvolvido com React, TypeScript e Vite para alta performance.
 *   **Design System Consistente:** Utiliza Tailwind CSS e shadcn-ui para uma interface de usuário coesa e acessível.
 *   **Ecossistema de Apps Expansivo:** Inclui módulos de produtividade, multimídia, sistema e integração com IoT/IA.
@@ -35,6 +36,7 @@ O projeto Suncloud OS é construído sobre uma fundação robusta de tecnologias
 | **Build Tool** | [**Vite**](https://vitejs.dev/) | Ferramenta de build de nova geração para desenvolvimento rápido e otimizado. |
 | **Estilização** | [**Tailwind CSS**](https://tailwindcss.com/) | Framework CSS *utility-first* para design rápido e responsivo. |
 | **Componentes UI** | [**shadcn-ui**](https://ui.shadcn.com/) | Componentes de UI acessíveis e reutilizáveis, construídos com Radix UI. |
+| **Áudio** | [**Web Audio API**](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) | Geração de sons de interface proceduralmente para uma experiência imersiva. |
 | **Estado de Servidor** | [**React Query**](https://tanstack.com/query/latest) | Gerenciamento de caching, sincronização e atualização de dados remotos. |
 | **Roteamento** | [**React Router DOM**](https://reactrouter.com/en/main) | Roteamento declarativo para navegação entre as "páginas" do sistema. |
 
@@ -88,9 +90,9 @@ Suncloud-OS/
 │   │   ├── ui/             # Componentes base do shadcn-ui (botões, diálogos, etc.)
 │   │   ├── Desktop.tsx     # O "kernel" do WbOSE: Gerenciador de Janelas e Ícones
 │   │   └── Taskbar.tsx     # Barra de tarefas e flyouts de sistema
-│   ├── contexts/           # Provedores de Contexto (Ex: SystemContext para eventos globais)
-│   ├── hooks/              # Hooks customizados
-│   ├── lib/                # Funções utilitárias genéricas (Ex: utils.ts)
+│   ├── contexts/           # Provedores de Contexto (SystemContext, AudioContext)
+│   ├── hooks/              # Hooks customizados (useSound)
+│   ├── lib/                # Funções utilitárias genéricas (utils.ts)
 │   ├── pages/              # Componentes de rota (Index.tsx, NotFound.tsx)
 │   └── App.tsx             # Configuração de roteamento e provedores
 ├── package.json            # Dependências e scripts do projeto
@@ -125,6 +127,7 @@ O Suncloud OS é composto por um rico ecossistema de aplicações. Cada módulo 
 | `synthwork` | **SynthWork** | `SynthWork.tsx` | Multimídia/Criação |
 | `sound` | **SoundSphere** | `SoundSphere.tsx` | Multimídia/Áudio |
 | `timevault` | **TimeVault** | `TimeVault.tsx` | Sistema/Backup |
+| `biomonitor` | **Bio-Monitor** | `BioMonitor.tsx` | IoT/Saúde |
 
 ---
 
@@ -146,5 +149,5 @@ Contribuições são bem-vindas! Se você deseja contribuir para o Suncloud OS, 
 
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](https://github.com/CenxDragonfruit/Suncloud-OS/blob/main/LICENSE) para mais detalhes.
 
-**Desenvolvido com 💙 por [Manus AI]**
+**Documentação gerada com 💙 por [Manus AI]**
 *Baseado no repositório CenxDragonfruit/Suncloud-OS.*
