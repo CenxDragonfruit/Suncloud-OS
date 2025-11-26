@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { X, Minus, Maximize2, Minimize2 } from "lucide-react";
-import { App } from "./Desktop"; // Ajuste o caminho se necessário
-import { Button } from "./ui/button"; // Ajuste o caminho se necessário
+import { App } from "./Desktop";
+import { Button } from "./ui/button";
+import { useSound } from "@/hooks/useSound";
 
 interface WindowProps {
   id: string;
@@ -12,6 +13,7 @@ interface WindowProps {
 }
 
 export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps) => {
+  const { playClose, playMinimize, playMaximize, playOpen } = useSound();
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 600, height: 500 });
   const [isMaximized, setIsMaximized] = useState(false);
@@ -21,6 +23,11 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
   const [resizeDirection, setResizeDirection] = useState<string>("");
   const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
   const windowRef = useRef<HTMLDivElement>(null);
+
+  // Play open sound when window mounts
+  useEffect(() => {
+    playOpen();
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -34,6 +41,17 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
     const newMaximizedState = !isMaximized;
     setIsMaximized(newMaximizedState);
     onMaximize?.(id, newMaximizedState);
+    playMaximize();
+  };
+
+  const handleMinimize = () => {
+    playMinimize();
+    onMinimize(id);
+  };
+
+  const handleClose = () => {
+    playClose();
+    onClose(id);
   };
 
   const startResize = (e: React.MouseEvent, direction: string) => {
@@ -135,7 +153,7 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
               variant="ghost"
               size="icon"
               className="h-8 w-8 hover:bg-secondary"
-              onClick={() => onMinimize(id)}
+              onClick={handleMinimize}
               onMouseDown={(e) => e.stopPropagation()}
             >
               <Minus className="h-4 w-4" />
@@ -157,7 +175,7 @@ export const Window = ({ id, app, onClose, onMinimize, onMaximize }: WindowProps
               variant="ghost"
               size="icon"
               className="h-8 w-8 hover:bg-destructive/20 hover:text-destructive"
-              onClick={() => onClose(id)}
+              onClick={handleClose}
               onMouseDown={(e) => e.stopPropagation()}
             >
               <X className="h-4 w-4" />
