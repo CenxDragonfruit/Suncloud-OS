@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot } from "lucide-react";
+import { Send, Bot, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -200,22 +200,36 @@ export const AIChat = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-card/40">
+    <div className="flex flex-col h-full bg-background/40 relative overflow-hidden">
+      {/* Neural grid background */}
+      <div className="absolute inset-0 neural-grid opacity-30" />
+      
+      {/* Scanning line effect */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 scanline" />
+      </div>
+
       {/* Header */}
-      <div className="border-b border-border/40 bg-card/60 px-4 py-3">
+      <div className="relative border-b border-border/40 bg-card/60 backdrop-blur-xl px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <Bot className="w-6 h-6 text-white" />
+          <div className="relative">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 via-violet-500 to-cyan-500 flex items-center justify-center glow-cyan">
+              <Bot className="w-6 h-6 text-white" />
+            </div>
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-400 border-2 border-card animate-pulse" />
           </div>
           <div>
-            <h3 className="font-semibold text-foreground">IA Suncloud</h3>
-            <p className="text-xs text-muted-foreground">Assistente Inteligente</p>
+            <h3 className="font-semibold text-foreground text-glow-cyan flex items-center gap-2">
+              Neural Assistant
+              <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
+            </h3>
+            <p className="text-xs text-cyan-400/70">Interface Sináptica Ativa</p>
           </div>
         </div>
       </div>
 
       {/* Messages Area */}
-      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+      <ScrollArea className="flex-1 p-4 relative z-10" ref={scrollRef}>
         <div className="space-y-4">
           {messages.map((message) => (
             <div
@@ -223,14 +237,20 @@ export const AIChat = () => {
               className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                className={`max-w-[80%] rounded-2xl px-4 py-3 backdrop-blur-xl ${
                   message.sender === "user"
-                    ? "bg-primary text-white"
-                    : "bg-card/60 text-foreground border border-border/40"
+                    ? "bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-500/30 glow-cyan"
+                    : "bg-card/60 border border-violet-500/30 glow-violet"
                 }`}
               >
-                <p className="text-sm">{message.text}</p>
-                <p className="text-xs opacity-70 mt-1">
+                {message.sender === "ai" && (
+                  <div className="flex items-center gap-2 mb-1">
+                    <Zap className="w-3 h-3 text-violet-400" />
+                    <span className="text-xs text-violet-400">Neural Response</span>
+                  </div>
+                )}
+                <p className="text-sm text-foreground">{message.text}</p>
+                <p className="text-xs text-muted-foreground mt-1">
                   {message.timestamp.toLocaleTimeString("pt-BR", {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -242,11 +262,14 @@ export const AIChat = () => {
           
           {isTyping && (
             <div className="flex justify-start">
-              <div className="bg-card/60 border border-border/40 rounded-2xl px-4 py-3">
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
+              <div className="bg-card/60 border border-violet-500/30 rounded-2xl px-4 py-3 glow-violet">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-violet-400">Processando</span>
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <div className="w-2 h-2 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -256,14 +279,17 @@ export const AIChat = () => {
 
       {/* Dynamic Suggestions */}
       {currentNode.suggestions && (
-        <div className="px-4 pb-2">
-          <p className="text-xs text-muted-foreground mb-2">Perguntas sugeridas:</p>
+        <div className="relative z-10 px-4 pb-2">
+          <p className="text-xs text-cyan-400/70 mb-2 flex items-center gap-1">
+            <Sparkles className="w-3 h-3" />
+            Fluxos Neurais Sugeridos
+          </p>
           <div className="flex flex-wrap gap-2">
             {currentNode.suggestions.map((suggestion, index) => (
               <button
                 key={index}
                 onClick={() => handleSuggestionClick(suggestion.nextId, suggestion.text)}
-                className="text-xs px-3 py-1 rounded-full bg-secondary hover:bg-secondary/80 text-foreground transition-colors"
+                className="text-xs px-3 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-violet-500/10 border border-cyan-500/30 text-foreground hover:from-cyan-500/20 hover:to-violet-500/20 hover:border-cyan-400/50 transition-all duration-300 hover:glow-cyan"
               >
                 {suggestion.text}
               </button>
@@ -273,19 +299,19 @@ export const AIChat = () => {
       )}
 
       {/* Input Area */}
-      <div className="border-t border-border/40 bg-card/60 p-4">
+      <div className="relative z-10 border-t border-border/40 bg-card/60 backdrop-blur-xl p-4">
         <div className="flex gap-2">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Digite sua mensagem..."
-            className="bg-input/50 border-border/50 text-foreground"
+            placeholder="Transmitir mensagem neural..."
+            className="bg-background/50 border-cyan-500/30 text-foreground placeholder:text-muted-foreground focus:border-cyan-400 focus:ring-cyan-400/20"
           />
           <Button
             onClick={handleSend}
             size="icon"
-            className="bg-primary hover:bg-primary/90 text-white"
+            className="bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white glow-cyan"
           >
             <Send className="w-4 h-4" />
           </Button>
