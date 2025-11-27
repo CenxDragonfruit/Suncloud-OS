@@ -36,9 +36,32 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
   };
 
   return (
-    <div className={`absolute bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${isHidden ? 'translate-y-full' : 'translate-y-0'}`}>
-      <div className="mx-4 mb-4 glass-panel rounded-2xl px-4 py-2 shadow-2xl backdrop-blur-2xl">
-        <div className="flex items-center justify-between gap-4">
+    <div className={`absolute bottom-0 left-0 right-0 z-50 transition-all duration-500 ${isHidden ? 'translate-y-full opacity-0' : 'translate-y-0 opacity-100'}`}>
+      <div 
+        className="mx-4 mb-4 glass-panel rounded-2xl px-4 py-2 shadow-2xl backdrop-blur-2xl relative overflow-hidden"
+        style={{
+          boxShadow: '0 0 40px hsl(var(--holo-cyan) / 0.1), 0 -10px 40px hsl(var(--background) / 0.5)',
+        }}
+      >
+        {/* Holographic shimmer */}
+        <div className="absolute inset-0 opacity-30 pointer-events-none overflow-hidden rounded-2xl">
+          <div 
+            className="absolute inset-0 shimmer"
+            style={{
+              background: 'linear-gradient(90deg, transparent, hsl(var(--holo-cyan) / 0.05), transparent)',
+            }}
+          />
+        </div>
+        
+        {/* Top border glow */}
+        <div 
+          className="absolute top-0 left-1/4 right-1/4 h-[1px] pointer-events-none"
+          style={{
+            background: 'linear-gradient(90deg, transparent, hsl(var(--holo-cyan) / 0.5), transparent)',
+          }}
+        />
+        
+        <div className="flex items-center justify-between gap-4 relative z-10">
           {/* Start Button */}
           <Button
             onClick={() => {
@@ -48,9 +71,13 @@ export const Taskbar = ({ openWindows, onStartMenuToggle, onSearchToggle, onTask
             onMouseEnter={() => playHover()}
             variant="ghost"
             size="icon"
-            className="h-12 w-12 rounded-xl hover:bg-primary/20 glow-effect"
+            className="h-12 w-12 rounded-xl hover:bg-primary/20 transition-all duration-300 hover:scale-105 relative group"
+            style={{
+              boxShadow: '0 0 20px hsl(var(--primary) / 0.2)',
+            }}
           >
-            <Cpu className="h-6 w-6 text-primary" />
+            <Cpu className="h-6 w-6 text-primary transition-all group-hover:text-glow" />
+            <div className="absolute inset-0 rounded-xl bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity pulse-glow" />
           </Button>
 
           {/* Search Button */}

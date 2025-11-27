@@ -9,14 +9,14 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* CloudOS Futuristic Theme - Deep space blues with cyan accents */
-    --background: 220 40% 8%;
+    --background: 220 40% 6%;
     --foreground: 200 100% 95%;
 
     /* Glass effect cards */
-    --card: 220 30% 12%;
+    --card: 220 30% 10%;
     --card-foreground: 200 100% 95%;
 
-    --popover: 220 35% 10%;
+    --popover: 220 35% 8%;
     --popover-foreground: 200 100% 95%;
 
     /* Cyan/Teal primary accent */
@@ -24,10 +24,10 @@ All colors MUST be HSL.
     --primary-foreground: 220 40% 8%;
 
     /* Secondary - slightly lighter blue */
-    --secondary: 210 40% 18%;
+    --secondary: 210 40% 16%;
     --secondary-foreground: 200 100% 95%;
 
-    --muted: 220 30% 15%;
+    --muted: 220 30% 12%;
     --muted-foreground: 200 30% 65%;
 
     /* Accent - bright cyan for interactive elements */
@@ -38,37 +38,43 @@ All colors MUST be HSL.
     --destructive-foreground: 200 100% 95%;
 
     /* Glass borders and inputs */
-    --border: 200 50% 25%;
-    --input: 220 30% 18%;
+    --border: 200 50% 20%;
+    --input: 220 30% 14%;
     --ring: 185 80% 55%;
 
     --radius: 0.75rem;
 
     /* Custom CloudOS tokens */
-    --glass-bg: 220 30% 12% / 0.6;
-    --glass-border: 200 50% 35% / 0.3;
+    --glass-bg: 220 30% 10% / 0.7;
+    --glass-border: 200 50% 30% / 0.4;
     --glow-primary: 185 80% 55%;
-    --gradient-start: 220 40% 10%;
-    --gradient-end: 200 60% 15%;
+    --glow-secondary: 270 70% 60%;
+    --gradient-start: 220 40% 8%;
+    --gradient-end: 200 60% 12%;
+    
+    /* Holographic effects */
+    --holo-cyan: 185 100% 65%;
+    --holo-violet: 270 80% 65%;
+    --holo-pink: 320 80% 65%;
     
     /* Window chrome */
-    --window-header: 220 35% 14%;
-    --window-border: 200 40% 25%;
+    --window-header: 220 35% 12%;
+    --window-border: 200 40% 22%;
     
     /* Sidebar/Dock */
-    --sidebar-background: 220 35% 10%;
+    --sidebar-background: 220 35% 8%;
     --sidebar-foreground: 200 100% 90%;
     --sidebar-primary: 185 80% 55%;
     --sidebar-primary-foreground: 220 40% 8%;
-    --sidebar-accent: 220 30% 16%;
+    --sidebar-accent: 220 30% 14%;
     --sidebar-accent-foreground: 200 100% 90%;
-    --sidebar-border: 200 40% 20%;
+    --sidebar-border: 200 40% 18%;
     --sidebar-ring: 185 80% 55%;
   }
 
   .light {
     /* Light theme */
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -99,8 +105,13 @@ All colors MUST be HSL.
     --glass-bg: 0 0% 100% / 0.8;
     --glass-border: 214.3 31.8% 81.4% / 0.5;
     --glow-primary: 185 80% 45%;
+    --glow-secondary: 270 70% 50%;
     --gradient-start: 210 40% 98%;
     --gradient-end: 200 60% 95%;
+    
+    --holo-cyan: 185 100% 50%;
+    --holo-violet: 270 80% 55%;
+    --holo-pink: 320 80% 55%;
 
     --window-header: 210 40% 96%;
     --window-border: 214.3 31.8% 91.4%;
@@ -108,21 +119,164 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  /* Glass panel with deep blur */
   .glass-panel {
-    @apply bg-card/60 backdrop-blur-xl border border-border/30;
+    @apply bg-card/60 backdrop-blur-2xl border border-border/30;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--card) / 0.7) 0%,
+      hsl(var(--card) / 0.4) 100%
+    );
   }
   
+  /* Window chrome with holographic border */
   .window-chrome {
-    @apply bg-gradient-to-b from-card to-card/80 backdrop-blur-2xl border border-border/40;
+    @apply backdrop-blur-2xl border border-border/40;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.9) 0%,
+      hsl(var(--card) / 0.7) 100%
+    );
+    box-shadow: 
+      0 0 0 1px hsl(var(--holo-cyan) / 0.1),
+      0 8px 32px hsl(var(--background) / 0.8),
+      0 0 60px hsl(var(--holo-cyan) / 0.05);
   }
   
+  /* Glow effects */
   .glow-effect {
-    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.3), 
-                0 0 40px hsl(var(--glow-primary) / 0.15);
+    box-shadow: 
+      0 0 20px hsl(var(--glow-primary) / 0.4), 
+      0 0 40px hsl(var(--glow-primary) / 0.2),
+      0 0 60px hsl(var(--glow-primary) / 0.1);
+  }
+  
+  .glow-cyan {
+    box-shadow: 0 0 20px hsl(var(--holo-cyan) / 0.5);
+  }
+  
+  .glow-violet {
+    box-shadow: 0 0 20px hsl(var(--holo-violet) / 0.5);
   }
   
   .text-glow {
-    text-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+    text-shadow: 0 0 10px hsl(var(--primary) / 0.6), 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  
+  .text-glow-cyan {
+    text-shadow: 0 0 10px hsl(var(--holo-cyan) / 0.8), 0 0 30px hsl(var(--holo-cyan) / 0.4);
+  }
+  
+  /* Holographic border animation */
+  .holo-border {
+    position: relative;
+  }
+  
+  .holo-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      var(--holo-angle, 135deg),
+      hsl(var(--holo-cyan) / 0.6),
+      hsl(var(--holo-violet) / 0.6),
+      hsl(var(--holo-pink) / 0.6),
+      hsl(var(--holo-cyan) / 0.6)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: holo-rotate 4s linear infinite;
+  }
+  
+  @keyframes holo-rotate {
+    to {
+      --holo-angle: 495deg;
+    }
+  }
+  
+  /* Pulse animation for vital elements */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--holo-cyan) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--holo-cyan) / 0.6), 0 0 60px hsl(var(--holo-cyan) / 0.3);
+    }
+  }
+  
+  /* Floating animation */
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  /* Shimmer effect */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--holo-cyan) / 0.1),
+      transparent
+    );
+    animation: shimmer 3s infinite;
+  }
+  
+  @keyframes shimmer {
+    100% {
+      left: 100%;
+    }
+  }
+  
+  /* Neural grid background */
+  .neural-grid {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--holo-cyan) / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--holo-violet) / 0.03) 0%, transparent 50%),
+      linear-gradient(hsl(var(--border) / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.1) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+  }
+  
+  /* Scanline effect */
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--background) / 0.03) 2px,
+      hsl(var(--background) / 0.03) 4px
+    );
+    pointer-events: none;
   }
 }
 
@@ -134,4 +288,195 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Window animations */
+@keyframes window-open {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes window-close {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+    filter: blur(10px);
+  }
+}
+
+@keyframes window-minimize {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) translateY(100px);
+  }
+}
+
+@keyframes window-maximize {
+  0% {
+    border-radius: 0.75rem;
+  }
+  100% {
+    border-radius: 0;
+  }
+}
+
+@keyframes window-restore {
+  0% {
+    border-radius: 0;
+  }
+  100% {
+    border-radius: 0.75rem;
+  }
+}
+
+.animate-window-open {
+  animation: window-open 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-window-close {
+  animation: window-close 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-window-minimize {
+  animation: window-minimize 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Holographic gradient animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Login screen grid animation */
+@keyframes slideGrid {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(30px, 30px); }
+}
+
+/* Breathing glow for UI elements */
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* Data stream effect */
+@keyframes data-stream {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* Ripple effect on click */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%);
+  transform: scale(0);
+  opacity: 0;
+}
+
+.ripple-effect:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}
+
+/* Selection color */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
+}
+
+/* Focus ring styling */
+*:focus-visible {
+  outline: 2px solid hsl(var(--ring) / 0.5);
+  outline-offset: 2px;
+}
+
+@property --holo-angle {
+  syntax: '<angle>';
+  initial-value: 135deg;
+  inherits: false;
 }

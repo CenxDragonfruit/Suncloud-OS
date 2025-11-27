@@ -142,10 +142,11 @@ export const Terminal = () => {
     if (output === "__CLEAR__") {
       setLines([]);
     } else {
+      const outputText = typeof output === 'function' ? output() : output;
       const outputLine: TerminalLine = {
         id: (Date.now() + 1).toString(),
-        text: output,
-        type: typeof output === "string" && output.startsWith("[ERROR]") ? "error" : "output",
+        text: outputText,
+        type: outputText.startsWith("[ERROR]") ? "error" : "output",
       };
       setLines((prev) => [...prev, inputLine, outputLine]);
     }
