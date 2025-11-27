@@ -1,6 +1,5 @@
 # ☁️ Suncloud OS: Web-based Operating System Environment
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/CenxDragonfruit/Suncloud-OS/blob/main/LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
@@ -142,13 +141,3 @@ Contribuições são bem-vindas! Se você deseja contribuir para o Suncloud OS, 
 5.  Faça o *commit* de suas alterações (`git commit -m 'feat: Adiciona nova funcionalidade X'`).
 6.  Envie para a *branch* (`git push origin feature/sua-funcionalidade`).
 7.  Abra um **Pull Request** detalhado.
-
----
-
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](https://github.com/CenxDragonfruit/Suncloud-OS/blob/main/LICENSE) para mais detalhes.
-
-**Documentação gerada com 💙 por [Manus AI]**
-*Baseado no repositório CenxDragonfruit/Suncloud-OS.*
-](https://github.com/CenxDragonfruit/Suncloud-OS)
