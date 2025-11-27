@@ -17,19 +17,19 @@ const Index = () => {
     }
   }, [theme]);
 
-  if (!isLoggedIn) {
-    return <Login onLogin={() => setIsLoggedIn(true)} />;
-  }
-
   return (
     <AudioProvider>
-      <SystemProvider>
-        <Desktop 
-          onLogout={() => setIsLoggedIn(false)} 
-          theme={theme}
-          onThemeChange={setTheme}
-        />
-      </SystemProvider>
+      {!isLoggedIn ? (
+        <Login onLogin={() => setIsLoggedIn(true)} />
+      ) : (
+        <SystemProvider>
+          <Desktop 
+            onLogout={() => setIsLoggedIn(false)} 
+            theme={theme}
+            onThemeChange={setTheme}
+          />
+        </SystemProvider>
+      )}
     </AudioProvider>
   );
 };
