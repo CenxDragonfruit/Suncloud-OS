@@ -127,17 +127,3 @@ O Suncloud OS é composto por um rico ecossistema de aplicações. Cada módulo 
 | `sound` | **SoundSphere** | `SoundSphere.tsx` | Multimídia/Áudio |
 | `timevault` | **TimeVault** | `TimeVault.tsx` | Sistema/Backup |
 | `biomonitor` | **Bio-Monitor** | `BioMonitor.tsx` | IoT/Saúde |
-
----
-
-## 🤝 Contribuição
-
-Contribuições são bem-vindas! Se você deseja contribuir para o Suncloud OS, siga estas diretrizes:
-
-1.  **Fork** o repositório.
-2.  Crie uma nova *branch* para sua funcionalidade (`git checkout -b feature/sua-funcionalidade`).
-3.  Implemente suas mudanças e garanta que o código esteja tipado (TypeScript) e formatado.
-4.  Execute o *linting* (`npm run lint`) para verificar a qualidade do código.
-5.  Faça o *commit* de suas alterações (`git commit -m 'feat: Adiciona nova funcionalidade X'`).
-6.  Envie para a *branch* (`git push origin feature/sua-funcionalidade`).
-7.  Abra um **Pull Request** detalhado.
