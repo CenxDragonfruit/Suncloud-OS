@@ -1,4 +1,4 @@
-# ☁️ Suncloud OS: Web-based Operating System Environment
+[# ☁️ Suncloud OS: Web-based Operating System Environment
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/CenxDragonfruit/Suncloud-OS/blob/main/LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -151,3 +151,4 @@ Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](https
 
 **Documentação gerada com 💙 por [Manus AI]**
 *Baseado no repositório CenxDragonfruit/Suncloud-OS.*
+](https://github.com/CenxDragonfruit/Suncloud-OS)
