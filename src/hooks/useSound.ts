@@ -1,23 +1,25 @@
 import { useCallback } from 'react';
 import { useAudio } from '@/contexts/AudioContext';
 
-type SoundType = 'hover' | 'click' | 'open' | 'close' | 'error' | 'success' | 'minimize' | 'maximize';
+export type SoundType = 'hover' | 'click' | 'open' | 'close' | 'error' | 'success' | 'minimize' | 'maximize' | 'login' | 'notification';
 
 export const useSound = () => {
   const { playSound } = useAudio();
 
-  const play = useCallback((type: SoundType, volume?: number) => {
-    playSound(type, volume);
+  const play = useCallback((type: SoundType) => {
+    playSound(type);
   }, [playSound]);
 
   return {
-    playHover: () => play('hover', 0.3),
-    playClick: () => play('click', 0.5),
-    playOpen: () => play('open', 0.6),
-    playClose: () => play('close', 0.5),
-    playError: () => play('error', 0.7),
-    playSuccess: () => play('success', 0.6),
-    playMinimize: () => play('minimize', 0.5),
-    playMaximize: () => play('maximize', 0.5),
+    playHover: () => play('hover'),
+    playClick: () => play('click'),
+    playOpen: () => play('open'),
+    playClose: () => play('close'),
+    playError: () => play('error'),
+    playSuccess: () => play('success'),
+    playMinimize: () => play('minimize'),
+    playMaximize: () => play('maximize'),
+    playLogin: () => play('login'),
+    playNotification: () => play('notification'),
   };
 };
